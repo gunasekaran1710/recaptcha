@@ -1,55 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>reCAPTCHA v3 Frontend Only</title>
-  <script src="https://www.google.com/recaptcha/api.js?render=6LcGQiArAAAAANrbqxLO6a0EeOF8EP6Il6_Q1P9C"></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 50px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 20px;
-      font-size: 16px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>reCAPTCHA v2 Example</title>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
+  <h2>Google reCAPTCHA v2 (Image Challenge)</h2>
 
-  <h2>Google reCAPTCHA v3 </h2>
+  <form id="myForm">
+    <input type="text" name="name" placeholder="Your name" required><br><br>
 
-  <form id="captcha-form">
+    <!-- reCAPTCHA Widget -->
+    <div class="g-recaptcha" data-sitekey="6LdaRyArAAAAAHX428p_ABF44TwAooiGho4Uoe5Q"></div>
+
+    <br>
     <button type="submit">Submit</button>
   </form>
 
-  <p id="status"></p>
-  <p id="token"></p>
-
   <script>
-    const form = document.getElementById('captcha-form');
-    const status = document.getElementById('status');
-    const tokenDisplay = document.getElementById('token');
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
-      grecaptcha.ready(function () {
-        grecaptcha.execute('6LcGQiArAAAAANrbqxLO6a0EeOF8EP6Il6_Q1P9C', { action: 'submit' }).then(function (token) {
-          status.textContent = "Token generated!";
-          status.style.color = "green";
-          tokenDisplay.textContent = "Token: " + token;
-          console.log("reCAPTCHA token:", token);
-        });
-      });
+    document.getElementById('myForm').addEventListener('submit', function(e) {
+      const response = grecaptcha.getResponse();
+      if (!response) {
+        e.preventDefault();
+        alert("Please complete the CAPTCHA!");
+      } else {
+        alert("CAPTCHA passed! You can now do frontend logic or send to backend.");
+        e.preventDefault(); // prevent actual submit since no backend
+        console.log("reCAPTCHA Token:", response);
+      }
     });
   </script>
-
 </body>
 </html>
+
 
