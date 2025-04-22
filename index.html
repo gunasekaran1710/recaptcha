@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Invisible reCAPTCHA (Frontend Only)</title>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <title>reCAPTCHA v3 Frontend Only</title>
+  <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY_HERE"></script>
   <style>
     body {
       font-family: sans-serif;
@@ -22,33 +22,34 @@
 </head>
 <body>
 
-  <h2>Google Invisible reCAPTCHA v2 </h2>
+  <h2>Google reCAPTCHA v3 </h2>
 
   <form id="captcha-form">
-    <button
-      class="g-recaptcha"
-      data-sitekey="6LfpPyArAAAAAM0j5PNN-ilSRYaHl86218vaHB_W"
-      data-callback="onSubmit"
-      data-action="submit"
-    >
-      Submit
-    </button>
+    <button type="submit">Submit</button>
   </form>
 
   <p id="status"></p>
+  <p id="token"></p>
 
   <script>
-    function onSubmit(token) {
-      document.getElementById('status').textContent = "reCAPTCHA completed!";
-      document.getElementById('status').style.color = 'green';
-      console.log("Captcha Token:", token);
-    }
+    const form = document.getElementById('captcha-form');
+    const status = document.getElementById('status');
+    const tokenDisplay = document.getElementById('token');
 
-    // Optional: Catch the submit to prevent default refresh
-    document.getElementById("captcha-form").addEventListener("submit", function (e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
+
+      grecaptcha.ready(function () {
+        grecaptcha.execute('6Lf-QCArAAAAANL1KAoGO8MIyvJgN82s-yYTEaGc', { action: 'submit' }).then(function (token) {
+          status.textContent = "Token generated!";
+          status.style.color = "green";
+          tokenDisplay.textContent = "Token: " + token;
+          console.log("reCAPTCHA token:", token);
+        });
+      });
     });
   </script>
 
 </body>
 </html>
+
