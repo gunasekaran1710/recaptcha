@@ -40,7 +40,7 @@
       e.preventDefault();
 
       grecaptcha.ready(function () {
-        grecaptcha.execute('6Lf-QCArAAAAANL1KAoGO8MIyvJgN82s-yYTEaGc', { action: 'submit' }).then(function (token) {
+        grecaptcha.execute('6LcGQiArAAAAANrbqxLO6a0EeOF8EP6Il6_Q1P9C', { action: 'submit' }).then(function (token) {
           status.textContent = "Token generated!";
           status.style.color = "green";
           tokenDisplay.textContent = "Token: " + token;
